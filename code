@@ -1,0 +1,125 @@
+- 👋 Hi, I’m @vh1805
+- 👀 I’m interested in ...
+- 🌱 I’m currently learning ...
+- 💞️ I’m looking to collaborate on ...
+- 📫 How to reach me ...
+
+<!---
+vh1805/vh1805 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
+
+class Solution
+{
+public:
+     
+     int f(vector<int> &arr,int k)
+     {
+         unordered_map<int,int> mpp;
+         mpp.insert({0,-1});
+         int maxi=0;
+         int Sum=0,n=arr.size();
+         for(int i=0;i<n;i++)
+         {
+             Sum+=arr[i];
+             if(mpp.find(Sum)!=mpp.end())
+             {
+                 maxi=max(maxi,i-mpp[Sum]);
+             }
+             else
+             {
+                 mpp.insert({Sum,i});
+             }
+         }
+        return maxi;
+     }
+public:     
+     vector<int> f1(vector<int> &arr,int k)
+     {
+         unordered_map<int,int> mpp;
+         int i=0,j=0;
+         vector<int> ans;
+         int N=arr.size();
+         while(j<N)
+         {
+             mpp[arr[j]]++;
+             if(j-i+1<k)
+             {
+                 j++;
+             }
+             else if(j-i+1==k)
+             {
+                 ans.push_back(mpp.size());
+                 mpp[arr[i]]--;
+                 if(mpp[arr[i]]==0) mpp.erase(arr[i]);
+                 
+                 i++,j++;
+             }
+         }
+         return ans;
+     }
+public:
+     int f3(vector<int> &arr)
+     {
+          unordered_map<int,int> mpp;
+         mpp.insert({0,1});
+         int maxi=0;
+         int Sum=0,n=arr.size();
+         for(int i=0;i<n;i++)
+         {
+             Sum+=arr[i];
+             if(mpp.find(Sum)!=mpp.end())
+             {
+                 maxi+=mpp[Sum];
+             }
+             mpp[Sum]++;
+         }
+        return maxi;
+     }
+public:
+
+   string MinWindowSubstring(string s,string s2)
+   {
+       unordered_map<char,int> mp;
+       
+       for(auto &it:s2)
+       {
+           mp[it]++;
+       }
+       int cnt=mp.size();
+       int mini=INT_MAX;
+       string ans;
+       int i=0,j=0;
+       int N=s.size();
+       while(j<N)
+       {
+           char ch=s[j];
+           if(mp.find(ch)!=mp.end())
+           {
+               mp[ch]--;
+               if(mp[ch]==0) cnt--;
+           }
+         
+               while(cnt==0)
+               {
+                 if(mini>j-i+1)
+                 {
+                     mini=min(mini,j-i+1);
+                     ans=s.substr(i,j-i+1);
+                 }
+                   char ch1=s[i];
+                   if(mp.find(ch1)!=mp.end())
+                   {
+                       mp[ch1]++;
+                       if(mp[ch1]==1) cnt++;
+                   }
+                   i++;
+               }
+               j++;
+           
+       }
+       return ans;
+   }
+     
+    
+};
